@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修改学生信息</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>修改学生信息</h2>
+        <form method="post">
+            <!-- 基本信息 -->
+            <div class="mb-3">
+                <label for="name" class="form-label">姓名</label>
+                <input type="text" class="form-control" name="name" value="{{ student_info[1] }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="dob" class="form-label">出生日期</label>
+                <input type="date" class="form-control" name="dob" value="{{ student_info[2] }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_card_number" class="form-label">身份证号</label>
+                <input type="text" class="form-control" name="id_card_number" value="{{ student_info[3] }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="source_location" class="form-label">来源地</label>
+                <input type="text" class="form-control" name="source_location" value="{{ student_info[4] }}">
+            </div>
+            <div class="mb-3">
+                <label for="undergraduate_major" class="form-label">本科专业</label>
+                <input type="text" class="form-control" name="undergraduate_major" value="{{ student_info[5] }}">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">邮箱</label>
+                <input type="email" class="form-control" name="email" value="{{ student_info[6] }}">
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">电话</label>
+                <input type="text" class="form-control" name="phone" value="{{ student_info[7] }}">
+            </div>
+            <div class="mb-3">
+                <label for="undergraduate_school" class="form-label">本科院校</label>
+                <input type="text" class="form-control" name="undergraduate_school" value="{{ student_info[8] }}">
+            </div>
+            <div class="mb-3">
+                <label for="school_type" class="form-label">学校类型</label>
+                <input type="text" class="form-control" name="school_type" value="{{ student_info[9] }}">
+            </div>
+            <div class="mb-3">
+                <label for="resume" class="form-label">简历</label>
+                <textarea class="form-control" name="resume">{{ student_info[10] }}</textarea>
+            </div>
+
+            <!-- 成绩 -->
+            <div class="mb-3">
+                <label for="preliminary_scores" class="form-label">初试成绩</label>
+                <input type="text" class="form-control" name="preliminary_scores" value="{{ student_info[11] }}">
+            </div>
+            <div class="mb-3">
+                <label for="interview_scores" class="form-label">面试成绩</label>
+                <input type="text" class="form-control" name="interview_scores" value="{{ student_info[12] }}">
+            </div>
+
+            <!-- 录取状态 -->
+            <div class="mb-3">
+                <label for="admission_status" class="form-label">录取状态</label>
+                <select class="form-control" name="admission_status">
+                    <option value="已录取" {% if student_info[13] == "已录取" %}selected{% endif %}>已录取</option>
+                    <option value="未录取" {% if student_info[13] == "未录取" %}selected{% endif %}>未录取</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-success">提交修改</button>
+        </form>
+        <a href="{{ url_for('students') }}" class="btn btn-secondary mt-3">返回学生列表</a>
+    </div>
+</body>
+</html>

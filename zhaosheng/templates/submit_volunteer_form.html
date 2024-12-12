@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提交志愿</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">提交志愿</h2>
+        <form method="post" class="mt-4">
+            <!-- 返回主页按钮 -->
+        <div class="text-center mb-4">
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">返回主页</a>
+        </div>
+            <!-- 学生信息 -->
+            <div class="mb-3">
+                <label for="student_name" class="form-label">学生姓名</label>
+                <input type="text" class="form-control" id="student_name" name="student_name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="student_id" class="form-label">学号</label>
+                <input type="text" class="form-control" id="student_id" name="student_id" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="gender" class="form-label">性别</label>
+                <select class="form-select" id="gender" name="gender" required>
+                    <option value="">请选择性别</option>
+                    <option value="Male">男</option>
+                    <option value="Female">女</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="candidate_type" class="form-label">报考类型</label>
+                <select class="form-select" id="candidate_type" name="candidate_type" required>
+                    <option value="">请选择报考类型</option>
+                    <option value="Computer Science">计算机科学与技术</option>
+                    <option value="Electronic Engineering">电子信息全日制</option>
+                    <option value="Other">其他（请填写）</option>
+                </select>
+            </div>
+
+            <!-- “其他”选项显示的自定义报考类型输入框 -->
+            <div id="other_candidate_type" class="mb-3" style="display: none;">
+                <label for="candidate_type_other" class="form-label">其他报考类型</label>
+                <input type="text" class="form-control" id="candidate_type_other" name="candidate_type_other">
+            </div>
+
+            <!-- 毕业学校 -->
+            <div class="mb-3">
+                <label for="graduation_school" class="form-label">毕业学校</label>
+                <input type="text" class="form-control" id="graduation_school" name="graduation_school" required>
+            </div>
+
+            <!-- 针对计算机科学与技术考生 -->
+            <div id="computer_science_fields" style="display:none;">
+                <div class="mb-3">
+                    <label for="research_direction" class="form-label">拟报研究方向</label>
+                    <input type="text" class="form-control" id="research_direction" name="research_direction">
+                </div>
+            </div>
+
+            <!-- 针对电子信息全日制考生 -->
+            <div id="electronic_engineering_fields" style="display:none;">
+                <div class="mb-3">
+                    <label for="accepts_direction_adjustment" class="form-label">是否接受方向调整</label>
+                    <select class="form-select" id="accepts_direction_adjustment" name="accepts_direction_adjustment">
+                        <option value="">请选择</option>
+                        <option value="Yes">是</option>
+                        <option value="No">否</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="direction_adjustment_order" class="form-label">调整方向优先顺序（最多四个方向）</label>
+                    <input type="text" class="form-control" id="direction_adjustment_order" name="direction_adjustment_order" placeholder="请填写优先顺序，多个方向用逗号隔开">
+                </div>
+            </div>
+
+            <!-- 联系方式 -->
+            <div class="mb-3">
+                <label for="contact_phone" class="form-label">联系电话</label>
+                <input type="text" class="form-control" id="contact_phone" name="contact_phone" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="emergency_contact_phone" class="form-label">紧急联系电话</label>
+                <input type="text" class="form-control" id="emergency_contact_phone" name="emergency_contact_phone" required>
+            </div>
+
+            <!-- 导师选择 -->
+            <div class="mb-3">
+                <label for="first_choice_mentor" class="form-label">第一志愿导师</label>
+                <input type="text" class="form-control" id="first_choice_mentor" name="first_choice_mentor" required>
+            </div>
+            <div class="mb-3">
+                <label for="second_choice_mentor" class="form-label">第二志愿导师</label>
+                <input type="text" class="form-control" id="second_choice_mentor" name="second_choice_mentor" required>
+            </div>
+            <div class="mb-3">
+                <label for="third_choice_mentor" class="form-label">第三志愿导师</label>
+                <input type="text" class="form-control" id="third_choice_mentor" name="third_choice_mentor" required>
+            </div>
+
+            <!-- 签名确认 -->
+            <div class="mb-3">
+                <label for="signature" class="form-label">考生签名确认</label>
+                <input type="text" class="form-control" id="signature" name="signature" required>
+            </div>
+
+            <!-- 提交按钮 -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">提交志愿</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // 根据报考类型动态显示相关字段
+        document.getElementById('candidate_type').addEventListener('change', function() {
+            var selectedType = this.value;
+
+            // 显示"其他"输入框
+            if (selectedType === 'Other') {
+                document.getElementById('other_candidate_type').style.display = 'block';
+            } else {
+                document.getElementById('other_candidate_type').style.display = 'none';
+            }
+
+            // 显示计算机科学与技术相关字段
+            if (selectedType === 'Computer Science') {
+                document.getElementById('computer_science_fields').style.display = 'block';
+                document.getElementById('electronic_engineering_fields').style.display = 'none';
+            }
+            // 显示电子信息全日制相关字段
+            else if (selectedType === 'Electronic Engineering') {
+                document.getElementById('electronic_engineering_fields').style.display = 'block';
+                document.getElementById('computer_science_fields').style.display = 'none';
+            }
+            // 隐藏所有其他字段
+            else {
+                document.getElementById('computer_science_fields').style.display = 'none';
+                document.getElementById('electronic_engineering_fields').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
